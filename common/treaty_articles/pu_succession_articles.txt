@@ -70,13 +70,6 @@ pu_recognize_succession = {
 		inherent_accept_score = {
 			value = 0
 
-			# We are doing this to be able to reuse loc across treaties and diplomatic actions
-			scope:source_country = {
-				save_temporary_scope_as = target
-			}
-			scope:target_country = {
-				save_temporary_scope_as = actor
-			}
 
 			# --------------------------------------------------------
 			# SOURCE COUNTRY
@@ -86,6 +79,14 @@ pu_recognize_succession = {
 			if = {
 				limit = {
 					scope:source_country ?= this
+				}
+
+				# We are doing this to be able to reuse loc across treaties and diplomatic actions
+				scope:source_country = {
+					save_temporary_scope_as = target
+				}
+				scope:target_country = {
+					save_temporary_scope_as = actor
 				}
 
 				# This should normally be a major concession.
@@ -332,17 +333,18 @@ pu_renounce_succession = {
 			value = 0
 
 
-			# We are doing this to be able to reuse loc across treaties and diplomatic actions
-			scope:source_country = {
-				save_temporary_scope_as = target
-			}
-			scope:target_country = {
-				save_temporary_scope_as = actor
-			}
 
 			if = {
 				limit = {
 					scope:source_country ?= this
+				}
+
+				# We are doing this to be able to reuse loc across treaties and diplomatic actions
+				scope:source_country = {
+					save_temporary_scope_as = target
+				}
+				scope:target_country = {
+					save_temporary_scope_as = actor
 				}
 
 				add = {
@@ -392,6 +394,13 @@ pu_renounce_succession = {
 			}
 			else = {
 
+				scope:source_country = {
+					save_temporary_scope_as = actor
+				}
+				scope:target_country = {
+					save_temporary_scope_as = target
+				}
+
 				# ========================================================
 				# Renouncing succession to our OWN throne
 				# ========================================================
@@ -404,13 +413,6 @@ pu_renounce_succession = {
 					# The foreign ruler's country.
 					scope:source_country = {
 						save_temporary_scope_as = pu_dynastic_partner
-					}
-
-					scope:source_country = {
-						save_temporary_scope_as = actor
-					}
-					scope:target_country = {
-						save_temporary_scope_as = target
 					}
 
 					# Countries generally prefer control over their own succession.
@@ -426,9 +428,12 @@ pu_renounce_succession = {
 					#
 					# If recognizing them would currently be undesirable,
 					# we strongly want them to renounce.
-					subtract = {
+					add = {
+						desc = "PU_ACCEPTANCE_OPPOSITION_TO_FOREIGN_SUCCESSION"
+
 						value = pu_succession_desirability_score
-						min = -100
+						multiply = -1
+						max = 100
 					}
 				}
 
@@ -560,17 +565,17 @@ pu_force_abdication = {
 		inherent_accept_score = {
 			value = 0
 
-			# We are doing this to be able to reuse loc across treaties and diplomatic actions
-			scope:source_country = {
-				save_temporary_scope_as = target
-			}
-			scope:target_country = {
-				save_temporary_scope_as = actor
-			}
-
 			if = {
 				limit = {
 					scope:source_country ?= this
+				}
+
+				# We are doing this to be able to reuse loc across treaties and diplomatic actions
+				scope:source_country = {
+					save_temporary_scope_as = target
+				}
+				scope:target_country = {
+					save_temporary_scope_as = actor
 				}
 
 				# Even a recognized heir normally has to wait for succession.

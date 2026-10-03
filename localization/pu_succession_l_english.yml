@@ -42,6 +42,7 @@
  pu_recognize_succession_wargoal_effects_desc: "If enforced, the target country will recognize our ruler as its heir, potentially leading to a Personal Union upon succession."
 
  PU_ACCEPTANCE_THRONE_VALUE: "Value of the Throne"
+ PU_ACCEPTANCE_OPPOSITION_TO_FOREIGN_SUCCESSION: "Opposition to Foreign Succession"
  notification_personal_union_established_message_name: "A Personal Union Is Established"
  notification_personal_union_established_message_desc: "[SCOPE.sCountry('pu_senior').GetNameNoFormatting] and [SCOPE.sCountry('pu_junior').GetNameNoFormatting] are now joined in a Personal Union under a common sovereign."
  notification_personal_union_established_message_tooltip: "#header $notification_personal_union_established_message_name$#!\n$TOOLTIP_DELIMITER$\n$notification_personal_union_established_message_desc$"
