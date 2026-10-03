@@ -1,0 +1,6 @@
+﻿personal_union_established_message = {
+	type = country
+	texture = "gfx/interface/icons/notification_icons/influence.dds"
+
+	notification_type = feed
+}

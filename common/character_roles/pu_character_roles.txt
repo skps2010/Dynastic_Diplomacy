@@ -1,0 +1,6 @@
+﻿pu_displaced_heir = {
+    texture = "gfx/interface/icons/character_role_icons/heir.dds"
+	priority = 0
+	auto_assigned = no
+	spawn_characters_to_pool = no
+}

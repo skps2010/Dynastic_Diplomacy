@@ -1,0 +1,38 @@
+﻿# dp_recognize_succession = {
+# 	war_goal = pu_recognize_succession_wargoal
+
+# 	texture = "gfx/interface/icons/war_goals/enforce_treaty_article.dds"
+
+# 	add_infamy_for_starting_target_wargoals = yes
+
+# 	possible = {
+# 		NOT = {
+# 			is_country_type = decentralized
+# 		}
+
+# 		aggressive_diplomatic_plays_permitted = yes
+
+# 		scope:target_country = {
+# 			NOT = {
+# 				is_country_type = decentralized
+# 			}
+# 		}
+# 	}
+
+# 	ai_acceptance_max = 100
+
+# 	on_weekly_pulse = {
+# 		debug_log = "PU_REWORK: dp_recognize_succession is active"
+# 		debug_log_scopes = yes
+# 	}
+
+# 	on_war_begins = {
+# 		debug_log = "PU_REWORK: dp_recognize_succession escalated to WAR"
+# 		debug_log_scopes = yes
+# 	}
+
+# 	on_war_end = {
+# 		debug_log = "PU_REWORK: dp_recognize_succession WAR ENDED"
+# 		debug_log_scopes = yes
+# 	}
+# }

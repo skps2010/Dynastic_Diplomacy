@@ -1,0 +1,58 @@
+﻿l_simp_chinese:
+
+ # ============================================================
+ # Treaty Articles
+ # ============================================================
+
+ pu_recognize_succession: "承認繼承權"
+ pu_recognize_succession_desc: "正式承認另一國的統治者為本國王位繼承人。若獲承認的繼承人在現任君主駕崩後仍在世，其繼位可能使兩國形成共主邦聯。"
+
+ pu_renounce_succession: "放棄繼承權"
+ pu_renounce_succession_desc: "正式放棄已獲承認的外國王位繼承權，終止相關王朝安排，並在可能的情況下恢復原有的王位繼承順序。"
+
+ pu_force_abdication: "強迫退位"
+ pu_force_abdication_desc: "迫使現任君主退位，由已獲承認的外國繼承人立即繼位，使既定的王位繼承安排立即生效。"
+
+
+ # ============================================================
+ # Character Roles
+ # ============================================================
+
+ pu_displaced_heir: "被取代的繼承人"
+ pu_displaced_heir_desc: "因外國王位繼承協議而失去繼承順位的原繼承人。若該繼承協議遭到放棄，此角色可能恢復其王位繼承資格。"
+
+
+ # ============================================================
+ # Diplomatic Play
+ # ============================================================
+
+ dp_recognize_succession: "承認繼承權"
+ dp_recognize_succession_desc: "發起外交博弈，迫使另一個君主國承認我國統治者為其王位繼承人。"
+
+ dp_recognize_succession_tooltip: "要求目標國承認我國統治者為其王位繼承人。"
+
+
+ # ============================================================
+ # War Goal
+ # ============================================================
+
+ pu_recognize_succession_wargoal: "承認繼承權"
+ pu_recognize_succession_wargoal_desc: "迫使目標國正式承認我國統治者為其王位繼承人。"
+
+ pu_recognize_succession_wargoal_effects_desc: "若此戰爭目標獲得執行，目標國將承認我國統治者為其王位繼承人，並可能在其繼位後形成共主邦聯。"
+
+
+ # ============================================================
+ # Acceptance
+ # ============================================================
+
+ PU_ACCEPTANCE_THRONE_VALUE: "王位價值"
+
+
+ # ============================================================
+ # Notifications
+ # ============================================================
+
+ notification_personal_union_established_message_name: "共主邦聯成立"
+ notification_personal_union_established_message_desc: "[SCOPE.sCountry('pu_senior').GetNameNoFormatting]與[SCOPE.sCountry('pu_junior').GetNameNoFormatting]如今由同一位君主統治，正式形成共主邦聯。"
+ notification_personal_union_established_message_tooltip: "#header $notification_personal_union_established_message_name$#!\n$TOOLTIP_DELIMITER$\n$notification_personal_union_established_message_desc$"

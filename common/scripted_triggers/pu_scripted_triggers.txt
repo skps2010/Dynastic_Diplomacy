@@ -1,0 +1,34 @@
+﻿pu_recognize_succession_possible = {
+	country_has_monarchy_law = yes
+	NOT = { has_law = law_type:law_bakufu }
+	is_subject = no
+
+	highest_overlapping_interest_tier = {
+		target = $REQUESTER$
+		value >= interest_tier_effect_can_start_diplomatic_plays_min_tier
+	}
+
+	# Great Powers cannot be targeted.
+	country_rank < rank_value:great_power
+
+	# The recognizing country may not outrank the requester.
+	country_rank <= $REQUESTER$.country_rank
+
+	# Do not overwrite an heir who is already another sovereign.
+	OR = {
+		NOT = {
+			exists = heir
+		}
+
+		heir ?= {
+			is_ruler_of_own_country = no
+		}
+	}
+
+	$REQUESTER$ = {
+		NOT = { is_subject_type = subject_type_personal_union }
+		country_has_monarchy_law = yes
+		NOT = { has_law = law_type:law_bakufu }
+		has_gov_regency = no
+	}
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Dynastic Diplomacy",
+  "id": "local.dynastic_diplomacy",
+  "version": "0.1.0",
+  "game_id": "victoria3",
+  "supported_game_version": "1.14.*",
+  "short_description": "Expands dynastic diplomacy with succession treaties, reworked Personal Unions, and immersive royal interactions.",
+  "tags": [
+    "Gameplay"
+  ],
+  "relationships": [],
+  "game_custom_data": {
+    "multiplayer_synchronized": true
+  }
+}

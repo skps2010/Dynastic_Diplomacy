@@ -1,0 +1,84 @@
+﻿pu_recognize_succession_infamy = {
+	value = 0
+
+	# Base value of the country being forced to recognize succession.
+	scope:target_country = {
+		add = country_infamy_value
+	}
+
+	# Culture
+	if = {
+		limit = {
+			any_primary_culture = {
+				is_primary_culture_of = scope:target_country
+			}
+		}
+
+		multiply = {
+            desc = "DIPLOMATIC_ACCEPTANCE_SAME_CULTURE"
+            value = 0.7
+        }
+	}
+	else_if = {
+		limit = {
+			any_primary_culture = {
+				shares_heritage_trait_with_any_primary_culture = scope:target_country
+			}
+		}
+
+		multiply = {
+            desc = "DIPLOMATIC_ACCEPTANCE_CULTURAL_ACCEPTANCE"
+            value = 0.8
+        }
+	}
+	else_if = {
+		limit = {
+			any_primary_culture = {
+				shares_heritage_trait_group_with_any_primary_culture = scope:target_country
+			}
+		}
+
+		multiply = {
+            desc = "DIPLOMATIC_ACCEPTANCE_CULTURAL_ACCEPTANCE"
+            value = 0.9
+        }
+	}
+	else_if = {
+		limit = {
+			any_primary_culture = {
+				scope:target_country = {
+					"cultural_acceptance_base(prev)" >= 40
+				}
+			}
+		}
+
+		multiply = {
+            desc = "DIPLOMATIC_ACCEPTANCE_DIFFERENT_CULTURE"
+            value = 0.95
+        }
+	}
+
+	# Religion
+	if = {
+		limit = {
+			religion = scope:target_country.religion
+		}
+
+		multiply = {
+            desc = "DIPLOMATIC_ACCEPTANCE_SAME_RELIGION"
+            value = 0.8
+        }
+	}
+	else_if = {
+		limit = {
+			religion = {
+				shares_heritage_trait_with_state_religion = scope:target_country
+			}
+		}
+
+		multiply = {
+            desc = "DIPLOMATIC_ACCEPTANCE_DIFFERENT_RELIGION"
+            value = 0.9
+        }
+	}
+}

@@ -1,0 +1,47 @@
+﻿l_english:
+
+ # ============================================================
+ # Treaty Articles
+ # ============================================================
+
+ pu_recognize_succession: "Recognize Succession"
+ pu_recognize_succession_desc: "Formally recognize the ruler of another country as heir to the throne. Should the recognized heir outlive the reigning monarch, the succession may unite the two countries in a Personal Union."
+
+ pu_renounce_succession: "Renounce Succession"
+ pu_renounce_succession_desc: "Formally renounce a recognized claim to a foreign throne, ending the dynastic arrangement and restoring the previous line of succession where possible."
+
+ pu_force_abdication: "Force Abdication"
+ pu_force_abdication_desc: "Compel the reigning monarch to abdicate in favor of an already recognized foreign heir, bringing the agreed succession into immediate effect."
+
+
+ # ============================================================
+ # Character Roles
+ # ============================================================
+
+ pu_displaced_heir: "Displaced Heir"
+ pu_displaced_heir_desc: "A former heir displaced by a foreign succession agreement. If that agreement is renounced, this character may be restored to the line of succession."
+
+
+ # ============================================================
+ # Diplomatic Play
+ # ============================================================
+
+ dp_recognize_succession: "Recognize Succession"
+ dp_recognize_succession_desc: "Launch a Diplomatic Play to compel another monarchy to recognize our ruler as heir to its throne."
+
+ dp_recognize_succession_tooltip: "Demand recognition of our ruler as heir to the target country's throne."
+
+
+ # ============================================================
+ # War Goal
+ # ============================================================
+
+ pu_recognize_succession_wargoal: "Recognize Succession"
+ pu_recognize_succession_wargoal_desc: "Force the target country to formally recognize our ruler as heir to its throne."
+
+ pu_recognize_succession_wargoal_effects_desc: "If enforced, the target country will recognize our ruler as its heir, potentially leading to a Personal Union upon succession."
+
+ PU_ACCEPTANCE_THRONE_VALUE: "Value of the Throne"
+ notification_personal_union_established_message_name: "A Personal Union Is Established"
+ notification_personal_union_established_message_desc: "[SCOPE.sCountry('pu_senior').GetNameNoFormatting] and [SCOPE.sCountry('pu_junior').GetNameNoFormatting] are now joined in a Personal Union under a common sovereign."
+ notification_personal_union_established_message_tooltip: "#header $notification_personal_union_established_message_name$#!\n$TOOLTIP_DELIMITER$\n$notification_personal_union_established_message_desc$"

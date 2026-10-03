@@ -1,0 +1,29 @@
+﻿on_become_subject = {
+	on_actions = {
+		pu_personal_union_established
+	}
+}
+
+pu_personal_union_established = {
+	trigger = {
+		is_subject_type = subject_type_personal_union
+	}
+
+	effect = {
+		# root = new junior partner
+		save_scope_as = pu_junior
+
+		scope:overlord = {
+			save_scope_as = pu_senior
+		}
+
+		# Notify every human player
+		every_country = {
+			limit = {
+				is_player = yes
+			}
+
+			post_notification = personal_union_established_message
+		}
+	}
+}
