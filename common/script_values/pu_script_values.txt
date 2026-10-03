@@ -82,3 +82,224 @@
         }
 	}
 }
+
+pu_succession_desirability_score = {
+	value = 0
+	# Shared primary culture makes a dynastic arrangement
+	if = {
+		limit = {
+			any_primary_culture = {
+				is_primary_culture_of = scope:pu_dynastic_partner
+			}
+		}
+		add = {
+			desc = "DIPLOMATIC_ACCEPTANCE_SAME_CULTURE"
+			value = 50
+		}
+	}
+	else_if = {
+		### If you share a cultural discrimination trait
+		limit = {
+			any_primary_culture = {
+				shares_heritage_trait_with_any_primary_culture = scope:pu_dynastic_partner
+			}
+		}
+		add = {
+			desc = "DIPLOMATIC_ACCEPTANCE_CULTURAL_ACCEPTANCE"
+			value = 30
+		}
+	}
+	else_if = {
+		### If you share a cultural discrimination trait
+		limit = {
+			any_primary_culture = {
+				shares_heritage_trait_group_with_any_primary_culture = scope:pu_dynastic_partner
+			}
+		}
+		add = {
+			desc = "DIPLOMATIC_ACCEPTANCE_CULTURAL_ACCEPTANCE"
+			value = 20
+		}
+	}
+	else_if = {
+		### If you share a cultural discrimination trait
+		limit = {
+			any_primary_culture = {
+				scope:pu_dynastic_partner = {
+					"cultural_acceptance_base(prev)" >= 40
+				}
+			}
+		}
+		add = {
+			desc = "DIPLOMATIC_ACCEPTANCE_DIFFERENT_CULTURE"
+			value = 10
+		}
+	}
+
+	# Shared state religion.
+	if = {
+		limit = {
+			religion = scope:pu_dynastic_partner.religion
+		}
+		add = {
+			desc = "DIPLOMATIC_ACCEPTANCE_SAME_RELIGION"
+			value = 40
+		}
+	}
+	else_if = {
+		### If you share a religious discrimination trait
+		limit = {
+			religion = {
+				shares_heritage_trait_with_state_religion = scope:pu_dynastic_partner
+			}
+		}
+		add = {
+			desc = "DIPLOMATIC_ACCEPTANCE_DIFFERENT_RELIGION"
+			value = 20
+		}
+	}
+
+	add = {
+		value = country_turmoil
+		multiply = 200
+		max = 100
+		desc = "COUNTRY_TURMOIL"
+	}
+
+	# ====================================================
+	# Financial condition
+	#
+	# Financial distress reduces resistance, but normally
+	# does not make Recognize Succession desirable by itself.
+	# ====================================================
+
+	if = {
+		limit = {
+			in_default = yes
+		}
+
+		add = {
+			desc = "DIPLOMATIC_ACCEPTANCE_DEBT_TARGET"
+			value = 120
+		}
+	}
+	else = {
+		# Debt: up to +100.
+		add = {
+			desc = "DIPLOMATIC_ACCEPTANCE_DEBT_TARGET"
+
+			value = scaled_debt
+			multiply = 200
+
+			max = 100
+		}
+
+		# Large gold reserves make submission less attractive:
+		# up to -50.
+		subtract = {
+			desc = "DIPLOMATIC_ACCEPTANCE_GOLD_RESERVES"
+
+			value = scaled_gold_reserves
+			multiply = 200
+
+			max = 50
+		}
+	}
+
+	if = {
+		limit = {
+			has_modifier = declared_bankruptcy
+		}
+
+		add = {
+			desc = "DIPLOMATIC_ACCEPTANCE_DEBT_TARGET"
+			value = 50
+		}
+	}
+
+	# GDP comparison
+
+	if = {
+		limit = {
+			gdp >= 2000000
+		}
+
+		subtract = {
+			desc = "DIPLOMATIC_ACCEPTANCE_HIGH_GDP"
+			value = gdp
+			subtract = 1000000
+			divide = 1000000
+			min = 1
+			max = 50
+		}
+	}
+
+	add = {
+		desc = "DIPLOMATIC_ACCEPTANCE_GDP"
+		value = "scope:pu_dynastic_partner.ai_gdp_comparison(scope:source_country)"
+		multiply = 10
+		min = -40
+		max = 40
+	}
+
+	# Army power comparison
+
+	add = {
+		desc = "DIPLOMATIC_ACCEPTANCE_ARMY_STRENGTH"
+		value = "scope:pu_dynastic_partner.ai_army_comparison(scope:source_country)"
+		multiply = 10
+		min = -50
+		max = 50
+	}
+
+
+	# ====================================================
+	# Attitude toward requester
+	# ====================================================
+
+	add = {
+		desc = "DIPLOMATIC_ACCEPTANCE_ATTITUDE"
+		if = {
+			limit = {
+				OR = {
+					has_attitude = {
+						who = scope:pu_dynastic_partner
+						attitude = antagonistic
+					}
+					has_attitude = {
+						who = scope:pu_dynastic_partner
+						attitude = domineering
+					}
+					has_attitude = {
+						who = scope:pu_dynastic_partner
+						attitude = belligerent
+					}
+					has_attitude = {
+						who = scope:pu_dynastic_partner
+						attitude = rebellious
+					}
+				}
+			}
+			value = -1000
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_attitude = {
+						who = scope:pu_dynastic_partner
+						attitude = wary
+					}
+					has_attitude = {
+						who = scope:pu_dynastic_partner
+						attitude = disinterested
+					}
+					has_attitude = {
+						who = scope:pu_dynastic_partner
+						attitude = cautious
+					}
+				}
+			}
+			value = -100
+		}
+	}
+}

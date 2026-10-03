@@ -94,223 +94,11 @@ pu_recognize_succession = {
 					value = -300
 				}
 
-				# Shared primary culture makes a dynastic arrangement
-				if = {
-					limit = {
-						any_primary_culture = {
-							is_primary_culture_of = scope:target_country
-						}
-					}
-					add = {
-						desc = "DIPLOMATIC_ACCEPTANCE_SAME_CULTURE"
-						value = 50
-					}
-				}
-				else_if = {
-					### If you share a cultural discrimination trait
-					limit = {
-						any_primary_culture = {
-							shares_heritage_trait_with_any_primary_culture = scope:target_country
-						}
-					}
-					add = {
-						desc = "DIPLOMATIC_ACCEPTANCE_CULTURAL_ACCEPTANCE"
-						value = 30
-					}
-				}
-				else_if = {
-					### If you share a cultural discrimination trait
-					limit = {
-						any_primary_culture = {
-							shares_heritage_trait_group_with_any_primary_culture = scope:target_country
-						}
-					}
-					add = {
-						desc = "DIPLOMATIC_ACCEPTANCE_CULTURAL_ACCEPTANCE"
-						value = 20
-					}
-				}
-				else_if = {
-					### If you share a cultural discrimination trait
-					limit = {
-						any_primary_culture = {
-							scope:target_country = {
-								"cultural_acceptance_base(prev)" >= 40
-							}
-						}
-					}
-					add = {
-						desc = "DIPLOMATIC_ACCEPTANCE_DIFFERENT_CULTURE"
-						value = 10
-					}
+				scope:target_country = {
+					save_temporary_scope_as = pu_dynastic_partner
 				}
 
-				# Shared state religion.
-				if = {
-					limit = {
-						religion = scope:target_country.religion
-					}
-					add = {
-						desc = "DIPLOMATIC_ACCEPTANCE_SAME_RELIGION"
-						value = 40
-					}
-				}
-				else_if = {
-					### If you share a religious discrimination trait
-					limit = {
-						religion = {
-							shares_heritage_trait_with_state_religion = scope:target_country
-						}
-					}
-					add = {
-						desc = "DIPLOMATIC_ACCEPTANCE_DIFFERENT_RELIGION"
-						value = 20
-					}
-				}
-
-				add = {
-					value = country_turmoil
-					multiply = 200
-					max = 100
-					desc = "COUNTRY_TURMOIL"
-				}
-
-				# ====================================================
-				# Financial condition
-				#
-				# Financial distress reduces resistance, but normally
-				# does not make Recognize Succession desirable by itself.
-				# ====================================================
-
-				if = {
-					limit = {
-						in_default = yes
-					}
-
-					add = {
-						desc = "DIPLOMATIC_ACCEPTANCE_DEBT_TARGET"
-						value = 120
-					}
-				}
-				else = {
-					# Debt: up to +100.
-					add = {
-						desc = "DIPLOMATIC_ACCEPTANCE_DEBT_TARGET"
-
-						value = scaled_debt
-						multiply = 200
-
-						max = 100
-					}
-
-					# Large gold reserves make submission less attractive:
-					# up to -50.
-					subtract = {
-						desc = "DIPLOMATIC_ACCEPTANCE_GOLD_RESERVES"
-
-						value = scaled_gold_reserves
-						multiply = 200
-
-						max = 50
-					}
-				}
-
-				if = {
-					limit = {
-						has_modifier = declared_bankruptcy
-					}
-
-					add = {
-						desc = "DIPLOMATIC_ACCEPTANCE_DEBT_TARGET"
-						value = 50
-					}
-				}
-
-				# GDP comparison
-
-				if = {
-					limit = {
-						gdp >= 2000000
-					}
-
-					subtract = {
-						desc = "DIPLOMATIC_ACCEPTANCE_HIGH_GDP"
-						value = gdp
-						subtract = 1000000
-						divide = 1000000
-						min = 1
-						max = 50
-					}
-				}
-
-				add = {
-					desc = "DIPLOMATIC_ACCEPTANCE_GDP"
-					value = "scope:target_country.ai_gdp_comparison(scope:source_country)"
-					multiply = 10
-					min = -40
-					max = 40
-				}
-
-				# Army power comparison
-
-				add = {
-					desc = "DIPLOMATIC_ACCEPTANCE_ARMY_STRENGTH"
-					value = "scope:target_country.ai_army_comparison(scope:source_country)"
-					multiply = 10
-					min = -50
-					max = 50
-				}
-
-
-				# ====================================================
-				# Attitude toward requester
-				# ====================================================
-
-				add = {
-					desc = "DIPLOMATIC_ACCEPTANCE_ATTITUDE"
-					if = {
-						limit = {
-							OR = {
-								has_attitude = {
-									who = scope:target_country
-									attitude = antagonistic
-								}
-								has_attitude = {
-									who = scope:target_country
-									attitude = domineering
-								}
-								has_attitude = {
-									who = scope:target_country
-									attitude = belligerent
-								}
-								has_attitude = {
-									who = scope:target_country
-									attitude = rebellious
-								}
-							}
-						}
-						value = -1000
-					}
-					else_if = {
-						limit = {
-							OR = {
-								has_attitude = {
-									who = scope:target_country
-									attitude = wary
-								}
-								has_attitude = {
-									who = scope:target_country
-									attitude = disinterested
-								}
-								has_attitude = {
-									who = scope:target_country
-									attitude = cautious
-								}
-							}
-						}
-						value = -100
-					}
-				}
+				add = pu_succession_desirability_score
 			}
 
 			# --------------------------------------------------------
@@ -543,6 +331,15 @@ pu_renounce_succession = {
 		inherent_accept_score = {
 			value = 0
 
+
+			# We are doing this to be able to reuse loc across treaties and diplomatic actions
+			scope:source_country = {
+				save_temporary_scope_as = target
+			}
+			scope:target_country = {
+				save_temporary_scope_as = actor
+			}
+
 			if = {
 				limit = {
 					scope:source_country ?= this
@@ -594,30 +391,77 @@ pu_renounce_succession = {
 				}
 			}
 			else = {
-				add = {
-					desc = "DIPLOMATIC_ACCEPTANCE_BASE_ADDITIONAL"
-					value = -10
-				}
+
+				# ========================================================
+				# Renouncing succession to our OWN throne
+				# ========================================================
 
 				if = {
 					limit = {
-						OR = {
-							has_attitude = {
-								who = scope:article.input_country
-								attitude = domineering
-							}
-							has_attitude = {
-								who = scope:article.input_country
-								attitude = protective
-							}
-						}
+						scope:article.input_country ?= this
 					}
 
+					# The foreign ruler's country.
+					scope:source_country = {
+						save_temporary_scope_as = pu_dynastic_partner
+					}
+
+					scope:source_country = {
+						save_temporary_scope_as = actor
+					}
+					scope:target_country = {
+						save_temporary_scope_as = target
+					}
+
+					# Countries generally prefer control over their own succession.
 					add = {
-						desc = "PU_ACCEPTANCE_THRONE_VALUE"
-						value = scope:article.input_country.country_infamy_value
-						multiply = 1.5
-						max = 30
+						desc = "DIPLOMATIC_ACCEPTANCE_BASE_ADDITIONAL"
+						value = 10
+					}
+
+					# Invert the score used for Recognize Succession.
+					#
+					# If recognizing this foreign ruler would currently be attractive,
+					# we are less interested in making them renounce.
+					#
+					# If recognizing them would currently be undesirable,
+					# we strongly want them to renounce.
+					subtract = {
+						value = pu_succession_desirability_score
+						min = -100
+					}
+				}
+
+				# ========================================================
+				# Renouncing succession to a THIRD COUNTRY
+				# ========================================================
+
+				else = {
+					add = {
+						desc = "DIPLOMATIC_ACCEPTANCE_BASE_ADDITIONAL"
+						value = -10
+					}
+
+					if = {
+						limit = {
+							OR = {
+								has_attitude = {
+									who = scope:article.input_country
+									attitude = domineering
+								}
+								has_attitude = {
+									who = scope:article.input_country
+									attitude = protective
+								}
+							}
+						}
+
+						add = {
+							desc = "PU_ACCEPTANCE_THRONE_VALUE"
+							value = scope:article.input_country.country_infamy_value
+							multiply = 1.5
+							max = 30
+						}
 					}
 				}
 			}
@@ -716,6 +560,14 @@ pu_force_abdication = {
 		inherent_accept_score = {
 			value = 0
 
+			# We are doing this to be able to reuse loc across treaties and diplomatic actions
+			scope:source_country = {
+				save_temporary_scope_as = target
+			}
+			scope:target_country = {
+				save_temporary_scope_as = actor
+			}
+
 			if = {
 				limit = {
 					scope:source_country ?= this
@@ -761,7 +613,7 @@ pu_force_abdication = {
 			}
 			else = {
 				add = {
-					desc = "DIPLOMATIC_ACCEPTANCE_BASE_ADDITIONAL"
+					desc = "DIPLOMATIC_ACCEPTANCE_BASE"
 					value = 25
 				}
 				add = {
