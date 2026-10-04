@@ -27,3 +27,47 @@ pu_personal_union_established = {
 		}
 	}
 }
+
+on_new_ruler = {
+	on_actions = {
+		pu_update_recognized_succession
+	}
+}
+
+pu_update_recognized_succession = {
+	effect = {
+		save_temporary_scope_as = pu_new_ruler
+
+		owner = {
+			save_temporary_scope_as = pu_new_ruler_country
+
+			if = {
+				limit = {
+					country_has_monarchy_law = yes
+				}
+
+				every_scope_treaty = {
+					every_scope_article = {
+						limit = {
+							has_type = pu_recognize_succession
+
+							target_country = {
+								this ?= scope:pu_new_ruler_country
+							}
+						}
+
+						source_country = {
+							if = {
+								limit = {
+									country_has_monarchy_law = yes
+								}
+
+								set_heir = scope:pu_new_ruler
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

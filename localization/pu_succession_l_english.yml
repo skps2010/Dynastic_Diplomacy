@@ -5,7 +5,7 @@
  # ============================================================
 
  pu_recognize_succession: "Recognize Succession"
- pu_recognize_succession_desc: "Formally recognize the ruler of another country as heir to the throne. Should the recognized heir outlive the reigning monarch, the succession may unite the two countries in a Personal Union."
+ pu_recognize_succession_desc: "Recognize the ruler of another country, and their successors for as long as the treaty remains in force, as heir to the throne. If the recognized ruler succeeds to the throne, the two countries may form a Personal Union."
 
  pu_renounce_succession: "Renounce Succession"
  pu_renounce_succession_desc: "Formally renounce a recognized claim to a foreign throne, ending the dynastic arrangement and restoring the previous line of succession where possible."
